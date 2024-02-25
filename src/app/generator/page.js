@@ -27,7 +27,7 @@ export default function Generator() {
     setIsLoading(true);
 
     const openai = new OpenAI({
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
+      apiKey: process.env.NEXT_PUBLIC_OPEN_AI_KEY,
       dangerouslyAllowBrowser: true,
     });
 
