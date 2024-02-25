@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ... existing root and body styles ... */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+}
 
+/* Header styling */
 .header-container {
   width: 100%;
   background-color: white;
   padding-top: 10px;
   text-align: center;
+  /* Adjust the height of the header if necessary */
+  height: 30%; 
 }
 
 .header-content {
@@ -18,10 +26,8 @@
 }
 
 .header-image {
-  height: 50px;
+  height: 40px;
   width: auto;
-  margin-right: 10px;
-  align-self: flex-end;
 }
 
 .header-title {
@@ -29,21 +35,28 @@
   color: black;
 }
 
+/* Main content area */
 .main-content {
   width: 100%;
-  padding-top: 20px;
+  flex-grow: 1; /* Allows the content to fill the space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto; /* Scroll inside main content if needed */
 }
 
+/* Form styling */
 .form-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
   justify-content: center;
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: #f8f9fa; /* Light gray background */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin: 1%;
+  padding: 0.2%;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 10px); /* Adjust the width to include padding */
 }
 
 .input-text {
@@ -53,8 +66,6 @@
   border-radius: 6px;
   color: #1f2937;
   font-size: 1rem;
-  overflow: hidden; /* Hides the scrollbar */
-  resize: none; /* Disables manual resizing */
 }
 
 .submit-button {
@@ -64,6 +75,7 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin: auto;
   transition: background-color 0.3s;
 }
 
@@ -71,29 +83,23 @@
   background-color: #4338ca;
 }
 
+/* Outer container for image and other content */
 .outer-container {
+  width: 100%;
+  max-width: 85%;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  max-width: 85%;
-  padding-left: 100px;
-  padding-right: 100px;
-  margin-top: 25px;
-  gap: 20px;
 }
 
 .left-image-container {
-  /* flex: 1;
-  min-width: 250px;
-  margin-top: 10%; */
   width: 100%;
   max-width: 500px;
   display: flex;
   justify-content: bottom;
-  align-items: bottom;
-  overflow: hidden;
+  padding-top: 6%;
   margin: auto;
-  padding-top: 15%;
+
 }
 
 .left-image {
@@ -103,13 +109,12 @@
 
 .image-display-container {
   width: 100%;
-  max-width: 1024px;
+  max-width: 50%;
   aspect-ratio: 1 / 1;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: white;
-  overflow: hidden;
   margin: auto;
   color: darkgray;
 }
@@ -120,20 +125,22 @@
   object-fit: contain;
 }
 
-@media (max-width: 2055px) {
-  .outer-container {
-    flex-direction: column;
-    align-items: bottom;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
+/* Media query adjustments */
+@media (max-width: 1024px) {
   .left-image-container {
     display: none;
   }
 
   .image-display-container {
     width: 100%;
-    height: auto;
+    padding: 10%;
+  }
+
+  .main-content {
+    padding: 10%;
+  }
+
+  .form-container {
+    width: 100%;
   }
 }
