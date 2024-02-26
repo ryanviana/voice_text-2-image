@@ -1,37 +1,38 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Shutdown() {
   const [isOn, setIsOn] = useState(true);
 
   useEffect(() => {
-    const checkSystemStatus = async () => {
+    const checkStatus = async () => {
       try {
         const response = await axios.get(
           "https://voice-ai-back.vercel.app/switch"
         );
-        setIsOn(response.data.switch === "on");
+        const isSystemOn = response.data.switch === "on";
+        setIsOn(isSystemOn); // Assume the response contains a field indicating if the system is on
       } catch (error) {
-        console.error("Error fetching system status:", error);
+        console.error("Error fetching status:", error);
       }
     };
 
-    checkSystemStatus();
+    checkStatus();
   }, []);
 
   const handleShutdown = async () => {
-    const newStatus = isOn ? "off" : "on";
+    const requestBody = {
+      switch: isOn ? "off" : "on",
+    };
+
     try {
-      await axios.post("https://voice-ai-back.vercel.app/switch", {
-        switch: newStatus,
-      });
-      setIsOn(!isOn);
+      await axios.post("https://voice-ai-back.vercel.app/switch", requestBody);
+      setIsOn(!isOn); // Toggle the state
     } catch (error) {
       console.error("Error during API call:", error);
     }
   };
-
   return (
     <div className="container">
       <button
