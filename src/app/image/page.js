@@ -19,7 +19,7 @@ export default function Generator() {
         const response = await axios.get(
           "https://voice-ai-back.vercel.app/switch"
         );
-        setIsSystemOn(response.data.switch === "on");
+        setIsSystemOn(response.data.value === "on");
       } catch (error) {
         console.error("Error checking system status:", error);
         setIsSystemOn(false); // In case of error, assume the system is off
@@ -58,7 +58,8 @@ export default function Generator() {
         prompt: inputText,
         n: 1,
         size: "1024x1024",
-        model: "dall-e-2",
+        model: "dall-e-3",
+        quality: "hd",
       });
 
       setImageUrl(response.data[0].url);

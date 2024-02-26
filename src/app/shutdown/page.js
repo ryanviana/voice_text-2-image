@@ -11,7 +11,7 @@ export default function Shutdown() {
         const response = await axios.get(
           "https://voice-ai-back.vercel.app/switch"
         );
-        const isSystemOn = response.data.switch === "on";
+        const isSystemOn = response.data.value === "on";
         setIsOn(isSystemOn); // Assume the response contains a field indicating if the system is on
       } catch (error) {
         console.error("Error fetching status:", error);
