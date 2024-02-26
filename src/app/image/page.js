@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios"; // Added for making HTTP requests
 import OpenAI from "openai";
 import dotenv from "dotenv";
 dotenv.config();
@@ -8,7 +9,25 @@ export default function Generator() {
   const [inputText, setInputText] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSystemOn, setIsSystemOn] = useState(true); // State to track system status
   const textareaRef = useRef(null);
+
+  // Check system status as soon as the page loads
+  useEffect(() => {
+    const checkSystemStatus = async () => {
+      try {
+        const response = await axios.get(
+          "https://voice-ai-back.vercel.app/switch"
+        );
+        setIsSystemOn(response.data.switch === "on");
+      } catch (error) {
+        console.error("Error checking system status:", error);
+        setIsSystemOn(false); // In case of error, assume the system is off
+      }
+    };
+
+    checkSystemStatus();
+  }, []);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -24,6 +43,9 @@ export default function Generator() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isSystemOn) {
+      return; // Prevent image generation if the system is off
+    }
     setIsLoading(true);
 
     const openai = new OpenAI({
@@ -46,6 +68,15 @@ export default function Generator() {
       setIsLoading(false);
     }
   };
+
+  // Display error message if the system is off
+  if (!isSystemOn) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+        <p>The system is shut down for now.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100">
